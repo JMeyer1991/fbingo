@@ -2,7 +2,7 @@ module fbingo
         implicit none
 
         private
-        public card, gen_card
+        public card, gen_card, print_card
 
         type :: card
                 integer, dimension(5, 5) :: face
@@ -13,6 +13,8 @@ contains
         function rand15() result(x)
                 ! function for generating random number between 1 and 15
                 ! used for selecting values in gen_card
+
+                implicit none
                 
                 real :: rand_real
                 integer :: x
@@ -22,6 +24,8 @@ contains
         end function rand15
 
         function gen_card() result(new_card)
+                implicit none
+
                 ! card result
                 type(card) :: new_card, temp_card
 
@@ -102,5 +106,19 @@ contains
 
                 new_card = temp_card
         end function gen_card
+
+        subroutine print_card(x, gameno, cardno)
+                implicit none
+                type(card), intent(in) :: x
+                integer, intent(in) :: gameno, cardno
+
+                print *, 'Game #', gameno
+                print *, 'Card #', cardno
+                print *, x%face(1, :)
+                print *, x%face(2, :)
+                print *, x%face(3, :)
+                print *, x%face(4, :)
+                print *, x%face(5, :)
+        end subroutine print_card
 
 end module fbingo
