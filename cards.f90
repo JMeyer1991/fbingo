@@ -5,13 +5,23 @@ module cards
         public gen_card
 
 contains
+        function rand15() result(x)
+                ! function for generating random number between 1 and 15
+                ! used for selecting values in gen_card
+                
+                real :: rand_real
+                integer :: x
+
+                call random_number(rand_real)
+                x = int(rand_real * 15) + 1
+        end function rand15
+
         function gen_card() result(card)
                 ! card result
                 integer, dimension(5, 5) :: card, temp_card
 
-                ! randomizer values
-                integer :: rand_int
-                real :: rand_real
+                ! candidate integer for space being filled
+                integer :: x
 
                 ! row index
                 integer :: i
@@ -32,22 +42,20 @@ contains
 
                 do i = 1, 5
                         do while (.true.)
-                                call random_number(rand_real)
-                                rand_int = int(rand_real * 15) + 1
-                                if (any(temp_card(:, 1) == colb(rand_int))) then
+                                x = rand15()
+                                if (any(temp_card(:, 1) == colb(x))) then
                                         cycle
                                 else
-                                        temp_card(i, 1) = colb(rand_int)
+                                        temp_card(i, 1) = colb(x)
                                         exit
                                 end if
                         end do
                         do while (.true.)
-                                call random_number(rand_real)
-                                rand_int = int(rand_real * 15) + 1
-                                if (any(temp_card(:, 2) == coli(rand_int))) then
+                                x = rand15()
+                                if (any(temp_card(:, 2) == coli(x))) then
                                         cycle
                                 else
-                                        temp_card(i, 2) = coli(rand_int)
+                                        temp_card(i, 2) = coli(x)
                                         exit
                                 end if
                         end do
@@ -56,32 +64,29 @@ contains
                                         temp_card(i, 3) = 0
                                         exit
                                 end if
-                                call random_number(rand_real)
-                                rand_int = int(rand_real * 15) + 1
-                                if (any(temp_card(:, 3) == coln(rand_int))) then
+                                x = rand15()
+                                if (any(temp_card(:, 3) == coln(x))) then
                                         cycle
                                 else
-                                        temp_card(i, 3) = coln(rand_int)
+                                        temp_card(i, 3) = coln(x)
                                         exit
                                 end if
                         end do
                         do while (.true.)
-                                call random_number(rand_real)
-                                rand_int = int(rand_real * 15) + 1
-                                if (any(temp_card(:, 4) == colg(rand_int))) then
+                                x = rand15()
+                                if (any(temp_card(:, 4) == colg(x))) then
                                         cycle
                                 else
-                                        temp_card(i, 4) = colg(rand_int)
+                                        temp_card(i, 4) = colg(x)
                                         exit
                                 end if
                         end do
                         do while (.true.)
-                                call random_number(rand_real)
-                                rand_int = int(rand_real * 15) + 1
-                                if (any(temp_card(:, 5) == colo(rand_int))) then
+                                x = rand15()
+                                if (any(temp_card(:, 5) == colo(x))) then
                                         cycle
                                 else
-                                        temp_card(i, 5) = colo(rand_int)
+                                        temp_card(i, 5) = colo(x)
                                         exit
                                 end if
                         end do
