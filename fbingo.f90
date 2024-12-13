@@ -1,4 +1,4 @@
-module cards
+module fbingo 
         implicit none
 
         private
@@ -95,4 +95,4 @@ contains
                 card(:, :) = temp_card(:, :)
         end function gen_card
 
-end module cards
+end module fbingo
