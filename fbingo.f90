@@ -2,7 +2,12 @@ module fbingo
         implicit none
 
         private
-        public gen_card
+        public card, gen_card
+
+        type :: card
+                integer, dimension(5, 5) :: face
+                logical, dimension(5, 5) :: dab
+        end type card
 
 contains
         function rand15() result(x)
@@ -16,9 +21,9 @@ contains
                 x = int(rand_real * 15) + 1
         end function rand15
 
-        function gen_card() result(card)
+        function gen_card() result(new_card)
                 ! card result
-                integer, dimension(5, 5) :: card, temp_card
+                type(card) :: new_card, temp_card
 
                 ! candidate integer for space being filled
                 integer :: x
@@ -43,56 +48,59 @@ contains
                 do i = 1, 5
                         do while (.true.)
                                 x = rand15()
-                                if (any(temp_card(:, 1) == colb(x))) then
+                                if (any(temp_card%face(:, 1) == colb(x))) then
                                         cycle
                                 else
-                                        temp_card(i, 1) = colb(x)
+                                        temp_card%face(i, 1) = colb(x)
                                         exit
                                 end if
                         end do
                         do while (.true.)
                                 x = rand15()
-                                if (any(temp_card(:, 2) == coli(x))) then
+                                if (any(temp_card%face(:, 2) == coli(x))) then
                                         cycle
                                 else
-                                        temp_card(i, 2) = coli(x)
+                                        temp_card%face(i, 2) = coli(x)
                                         exit
                                 end if
                         end do
                         do while (.true.)
                                 if (i == 3) then
-                                        temp_card(i, 3) = 0
+                                        temp_card%face(i, 3) = 0
                                         exit
                                 end if
                                 x = rand15()
-                                if (any(temp_card(:, 3) == coln(x))) then
+                                if (any(temp_card%face(:, 3) == coln(x))) then
                                         cycle
                                 else
-                                        temp_card(i, 3) = coln(x)
-                                        exit
-                                end if
-                        end do
-                        do while (.true.)
-                                x = rand15()
-                                if (any(temp_card(:, 4) == colg(x))) then
-                                        cycle
-                                else
-                                        temp_card(i, 4) = colg(x)
+                                        temp_card%face(i, 3) = coln(x)
                                         exit
                                 end if
                         end do
                         do while (.true.)
                                 x = rand15()
-                                if (any(temp_card(:, 5) == colo(x))) then
+                                if (any(temp_card%face(:, 4) == colg(x))) then
                                         cycle
                                 else
-                                        temp_card(i, 5) = colo(x)
+                                        temp_card%face(i, 4) = colg(x)
+                                        exit
+                                end if
+                        end do
+                        do while (.true.)
+                                x = rand15()
+                                if (any(temp_card%face(:, 5) == colo(x))) then
+                                        cycle
+                                else
+                                        temp_card%face(i, 5) = colo(x)
                                         exit
                                 end if
                         end do
                 end do
 
-                card(:, :) = temp_card(:, :)
+                ! set all dabs to 0
+                temp_card%dab(:, :) = .false.
+
+                new_card = temp_card
         end function gen_card
 
 end module fbingo

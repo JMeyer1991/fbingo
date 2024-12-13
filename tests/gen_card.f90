@@ -2,13 +2,18 @@ program gen_card_test
         use fbingo
         implicit none
 
-        integer, dimension(5, 5) :: card
+        type(card) :: x
 
-        card = gen_card()
+        x = gen_card()
 
-        print *, 'B:', card(:, 1)
-        print *, 'I:', card(:, 2)
-        print *, 'N:', card(:, 3)
-        print *, 'G:', card(:, 4)
-        print *, 'O:', card(:, 5)
+        print *, 'B:', x%face(:, 1)
+        print *, 'B:', x%dab(:, 1)
+        print *, 'I:', x%face(:, 2)
+        print *, 'I:', x%dab(:, 2)
+        print *, 'N:', x%face(:, 3)
+        print *, 'N:', x%dab(:, 3)
+        print *, 'G:', x%face(:, 4)
+        print *, 'G:', x%dab(:, 4)
+        print *, 'O:', x%face(:, 5)
+        print *, 'O:', x%dab(:, 5)
 end program gen_card_test
