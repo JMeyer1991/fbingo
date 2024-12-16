@@ -6,10 +6,11 @@ module fbingo
 
         integer, dimension(15, 5) :: balls
 
-        type:: card
-                integer, dimension(5, 5) :: face
+        type :: card
                 logical, dimension(5, 5) :: dab
-        end type card 
+                integer, dimension(5, 5) :: face
+                logical :: winner
+        end type card
 
         data balls / 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, &
                 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, &
@@ -52,22 +53,59 @@ contains
                 ! set all dabs to 0
                 temp_card%dab(:, :) = .false.
 
+                ! card is not yet a winner
+                temp_card%winner = .false.
+
                 ! return generated card value
                 new_card = temp_card
         end function gen_card
 
-        subroutine print_card(x, gameno, cardno)
+        subroutine print_card(x, gameno, cardno, indwin)
                 implicit none
-                type(card), intent(in) :: x
-                integer, intent(in) :: gameno, cardno
 
-                print *, 'Game #', gameno
-                print *, 'Card #', cardno
-                print *, x%face(1, :)
-                print *, x%face(2, :)
-                print *, x%face(3, :)
-                print *, x%face(4, :)
-                print *, x%face(5, :)
+                integer, optional, intent(in) :: cardno
+                integer :: i
+                logical, optional, intent(in) :: indwin
+                integer :: j
+                integer, optional, intent(in) :: gameno
+                type(card), intent(in) :: x
+                character(len=3), dimension(5, 5) :: y
+
+                ! if indwin is present and true, display whether card is winner
+                if(present(indwin)) then
+                        if (indwin .and. x%winner) then
+                                print *, 'WINNER!'
+                        else if (indwin .and. x%winner .eqv. .false.) then
+                                print *, 'NOT A WINNER'
+                        end if
+                end if
+
+                ! if gameno is present, diplsay the game number
+                if (present(gameno)) then
+                        print *, 'Game #', gameno
+                end if
+
+                ! if cardno is present, display the card number
+                if (present(cardno)) then
+                        print *, 'Card #', cardno
+                end if
+
+                ! convert card face to character vector
+                do i = 1, 5
+                        do j = 1, 5
+                                if (x%dab(i, j)) then
+                                        y(i, j) = ' * ' 
+                                else
+                                        write(y(i, j), '(i2, 1x)') x%face(i, j) 
+                                end if
+                        end do
+                end do
+
+                print *, y(1, :)
+                print *, y(2, :)
+                print *, y(3, :)
+                print *, y(4, :)
+                print *, y(5, :)
         end subroutine print_card
 
         function rand15() result(x)
