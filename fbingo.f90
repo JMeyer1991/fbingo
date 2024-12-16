@@ -4,12 +4,12 @@ module fbingo
         private
         public card, gen_card, print_card
 
-        type :: card
+        integer, dimension(15, 5) :: balls
+
+        type:: card
                 integer, dimension(5, 5) :: face
                 logical, dimension(5, 5) :: dab
-        end type card
-
-        integer, dimension(15, 5) :: balls
+        end type card 
 
         data balls / 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, &
                 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, &
@@ -18,18 +18,6 @@ module fbingo
                 61, 62, 63, 64, 65, 66, 67, 68, 69, 70, 71, 72, 73, 74, 75 /
 
 contains
-        function rand15() result(x)
-                ! function for generating random number between 1 and 15
-                ! used for selecting values in gen_card
-
-                implicit none
-                
-                real :: rand_real
-                integer :: x
-
-                call random_number(rand_real)
-                x = int(rand_real * 15) + 1
-        end function rand15
 
         function gen_card() result(new_card)
                 implicit none
@@ -81,5 +69,18 @@ contains
                 print *, x%face(4, :)
                 print *, x%face(5, :)
         end subroutine print_card
+
+        function rand15() result(x)
+                ! function for generating random number between 1 and 15
+                ! used for selecting values in gen_card
+
+                implicit none
+                
+                real :: rand_real
+                integer :: x
+
+                call random_number(rand_real)
+                x = int(rand_real * 15) + 1
+        end function rand15
 
 end module fbingo
