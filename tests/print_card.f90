@@ -1,15 +1,15 @@
 program print_card_test
-        use fbingo
+    use fbingo
 
-        implicit none
+    implicit none
 
-        type(card) :: x
+    type(card) :: x
 
-        ! create example card
-        x = gen_card()
+    ! create example card
+    x = gen_card()
 
-        ! dab the free space
-        x%dab(3, 3) = .true.
+    ! dab the free space
+    x%dab(3, 3) = .true.
 
-        call print_card(x, gameno = 1, cardno = 1, indwin = .true.)
+    call print_card(x, gameno = 1, cardno = 1, indwin = .true.)
 end program print_card_test
